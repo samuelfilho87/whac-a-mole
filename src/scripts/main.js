@@ -14,6 +14,7 @@ const state = {
     actions: {
         randoSquareTimer: setInterval(randomSquare, 1000),
         timeLeftTimer: setInterval(countDown, 1000),
+        hitSound: () => playSound('mouse.wav'),
     }
 };
 
@@ -26,6 +27,11 @@ function countDown() {
         clearInterval(state.actions.randoSquareTimer);
         alert(`Game Over! O seu resultado foi: ${state.values.score}`);
     }
+}
+
+function playSound(sound) {
+    const audio = new Audio(`./src/sounds/${sound}`);
+    audio.play();
 }
 
 function randomSquare() {
@@ -43,9 +49,12 @@ function addListenerHitBox() {
     state.view.squares.forEach(square => {
         square.addEventListener('mousedown', () => {
             if (square.id === state.values.hitPosition) {
+                state.actions.hitSound();
                 state.values.score++;
                 state.view.score.textContent = state.values.score;
                 state.values.hitPosition = null;
+            } else {
+
             }
         });
     });

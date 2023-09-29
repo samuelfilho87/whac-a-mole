@@ -4,12 +4,14 @@ const state = {
         enemy: document.querySelector('.enemy'),
         timeLeft: document.querySelector('#time .value-status'),
         score: document.querySelector('#score .value-status'),
+        player: document.querySelector('#player .value-status'),
     },
     values: {
         gameVelocity: 1000,
         hitPosition: 0,
         score: 0,
         timeLeft: 60,
+        playerAttempts: 3,
     },
     actions: {
         randoSquareTimer: setInterval(randomSquare, 1000),
@@ -21,12 +23,7 @@ const state = {
 function countDown() {
     state.values.timeLeft--;
     state.view.timeLeft.textContent = state.values.timeLeft;
-
-    if (state.values.timeLeft < 1) {
-        clearInterval(state.actions.timeLeftTimer);
-        clearInterval(state.actions.randoSquareTimer);
-        alert(`Game Over! O seu resultado foi: ${state.values.score}`);
-    }
+    gameOverHandle();
 }
 
 function playSound(sound) {
@@ -54,10 +51,24 @@ function addListenerHitBox() {
                 state.view.score.textContent = state.values.score;
                 state.values.hitPosition = null;
             } else {
-
+                state.values.playerAttempts--;
+                state.view.player.textContent = `x${state.values.playerAttempts}`;
+                gameOverHandle();
             }
         });
     });
+}
+
+function gameOverHandle() {
+    const timeIsOver = state.values.timeLeft < 1;
+    const playerAttemptsIsOver = state.values.playerAttempts === 0;
+    const gameOver = timeIsOver || playerAttemptsIsOver;
+
+    if (gameOver) {
+        clearInterval(state.actions.timeLeftTimer);
+        clearInterval(state.actions.randoSquareTimer);
+        alert(`Game Over! O seu resultado foi: ${state.values.score}`);
+    }
 }
 
 function execute() {

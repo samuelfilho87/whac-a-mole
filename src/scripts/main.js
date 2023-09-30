@@ -1,6 +1,6 @@
 const state = {
     view: {
-        squares: document.querySelectorAll('.square'),
+        squares: document.querySelectorAll('.showEnemy'),
         enemy: document.querySelector('.enemy'),
         timeLeft: document.querySelector('#time .value-status'),
         score: document.querySelector('#score .value-status'),

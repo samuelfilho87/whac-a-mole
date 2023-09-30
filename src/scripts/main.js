@@ -82,6 +82,7 @@ function gameOverHandle() {
 
     if (!state.values.gameOver && gameOver) {
         state.values.gameOver = gameOver;
+        removeEnemy();
         clearInterval(state.actions.timeLeftTimer);
         clearInterval(state.actions.randoSquareTimer);
         alert(`Game Over! O seu resultado foi: ${state.values.score}`);
@@ -89,8 +90,6 @@ function gameOverHandle() {
 }
 
 function restart() {
-    removeEnemy();
-    state.values.squareEnemy = null;
     state.values.gameOver = false;
     state.values.gameVelocity = 1000;
     state.values.playerAttempts = 3;

@@ -8,10 +8,10 @@ const state = {
     },
     values: {
         gameVelocity: 1000,
-        hitPosition: 0,
         score: 0,
         timeLeft: 60,
         playerAttempts: 3,
+        squareEnemy: null,
     },
     actions: {
         randoSquareTimer: setInterval(randomSquare, 1000),
@@ -32,20 +32,17 @@ function playSound(sound) {
 }
 
 function randomSquare() {
-    state.view.squares.forEach(square => {
-        square.classList.remove('enemy');
-    });
+    if (state.values.squareEnemy) state.values.squareEnemy.classList.remove('enemy');
 
     const randomNumber = Math.floor(Math.random() * 9);
-    const randomSquare = state.view.squares[randomNumber];
-    randomSquare.classList.add('enemy');
-    state.values.hitPosition = randomSquare.id;
+    state.values.squareEnemy = state.view.squares[randomNumber];
+    state.values.squareEnemy.classList.add('enemy');
 }
 
 function addListenerHitBox() {
     state.view.squares.forEach(square => {
         square.addEventListener('mousedown', () => {
-            if (square.id === state.values.hitPosition) {
+            if (square.id === state.values.squareEnemy.id) {
                 state.actions.hitSound();
                 state.values.score++;
                 state.view.score.textContent = state.values.score;

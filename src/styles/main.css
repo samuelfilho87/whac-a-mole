@@ -31,9 +31,11 @@ nav {
 nav div {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 nav .status {
+    font-weight: bold;
     color: red;
 }
 

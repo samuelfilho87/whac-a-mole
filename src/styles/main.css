@@ -8,9 +8,11 @@
 
 main {
     height: 100vh;
+    background: url('/src/images/grass.jpg') repeat;
+
     display: flex;
     flex-direction: column;
-    background: url('/src/images/grass.jpg') repeat;
+    align-items: center;
 }
 
 nav {
@@ -86,4 +88,20 @@ nav #player img {
 .enemy {
     background-image: url('/src/images/mole.png');
     background-size: contain;
+}
+
+#restart {
+    margin: 80px 0 0 0;
+    padding: 8px 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #a7a5a5;
+    border: 1px solid #00000085;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#restart:hover {
+    background: #d3d3d3;
 }

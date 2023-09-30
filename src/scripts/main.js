@@ -5,6 +5,7 @@ const state = {
         timeLeft: document.querySelector('#time .value-status'),
         score: document.querySelector('#score .value-status'),
         player: document.querySelector('#player .value-status'),
+        restart: document.querySelector('#restart').addEventListener('mousedown', () => restart()),
     },
     values: {
         gameVelocity: 1000,
@@ -12,6 +13,7 @@ const state = {
         timeLeft: 60,
         playerAttempts: 3,
         squareEnemy: null,
+        gameOver: false,
     },
     actions: {
         randoSquareTimer: setInterval(randomSquare, 1000),
@@ -61,11 +63,25 @@ function gameOverHandle() {
     const playerAttemptsIsOver = state.values.playerAttempts === 0;
     const gameOver = timeIsOver || playerAttemptsIsOver;
 
-    if (gameOver) {
+    if (!state.values.gameOver && gameOver) {
+        state.values.gameOver = gameOver;
         clearInterval(state.actions.timeLeftTimer);
         clearInterval(state.actions.randoSquareTimer);
         alert(`Game Over! O seu resultado foi: ${state.values.score}`);
     }
+}
+
+function restart() {
+    state.values.playerAttempts = 3;
+    state.view.player.textContent = `x3`;
+    state.values.score = 0;
+    state.view.score.textContent = 0;
+    state.values.timeLeft = 60;
+    state.view.timeLeft.textContent = 60;
+    clearInterval(state.actions.timeLeftTimer);
+    clearInterval(state.actions.randoSquareTimer);
+    state.actions.timeLeftTimer = setInterval(countDown, 1000);
+    state.actions.randoSquareTimer = setInterval(randomSquare, 1000);
 }
 
 function execute() {

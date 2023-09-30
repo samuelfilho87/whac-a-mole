@@ -83,6 +83,8 @@ function gameOverHandle() {
 }
 
 function restart() {
+    state.values.gameOver = false;
+    state.values.gameVelocity = 1000;
     state.values.playerAttempts = 3;
     state.view.player.textContent = `x3`;
     state.values.score = 0;

@@ -34,7 +34,7 @@ function playSound(sound) {
 }
 
 function randomSquare() {
-    if (state.values.squareEnemy) state.values.squareEnemy.classList.remove('enemy');
+    if (state.values.squareEnemy) removeEnemy();
 
     const randomNumber = Math.floor(Math.random() * 9);
     state.values.squareEnemy = state.view.squares[randomNumber];
@@ -44,16 +44,22 @@ function randomSquare() {
 function addListenerHitBox() {
     state.view.squares.forEach(square => {
         square.addEventListener('mousedown', () => {
-            square.id === state.values.squareEnemy.id ? hitSuccessful() : hitFail();
+            if (state.values.squareEnemy)
+                square.id === state.values.squareEnemy.id ? hitSuccessful() : hitFail();
         });
     });
+}
+
+function removeEnemy() {
+    state.values.squareEnemy.classList.remove('enemy');
+    state.values.squareEnemy = null;
 }
 
 function hitSuccessful() {
     state.actions.hitSound();
     state.values.score++;
     state.view.score.textContent = state.values.score;
-    state.values.hitPosition = null;
+    removeEnemy()
     increaseSpeed();
 }
 
@@ -83,6 +89,8 @@ function gameOverHandle() {
 }
 
 function restart() {
+    removeEnemy();
+    state.values.squareEnemy = null;
     state.values.gameOver = false;
     state.values.gameVelocity = 1000;
     state.values.playerAttempts = 3;

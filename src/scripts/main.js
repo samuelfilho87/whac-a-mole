@@ -44,18 +44,29 @@ function randomSquare() {
 function addListenerHitBox() {
     state.view.squares.forEach(square => {
         square.addEventListener('mousedown', () => {
-            if (square.id === state.values.squareEnemy.id) {
-                state.actions.hitSound();
-                state.values.score++;
-                state.view.score.textContent = state.values.score;
-                state.values.hitPosition = null;
-            } else {
-                state.values.playerAttempts--;
-                state.view.player.textContent = `x${state.values.playerAttempts}`;
-                gameOverHandle();
-            }
+            square.id === state.values.squareEnemy.id ? hitSuccessful() : hitFail();
         });
     });
+}
+
+function hitSuccessful() {
+    state.actions.hitSound();
+    state.values.score++;
+    state.view.score.textContent = state.values.score;
+    state.values.hitPosition = null;
+    increaseSpeed();
+}
+
+function hitFail() {
+    state.values.playerAttempts--;
+    state.view.player.textContent = `x${state.values.playerAttempts}`;
+    gameOverHandle();
+}
+
+function increaseSpeed() {
+    clearInterval(state.actions.randoSquareTimer);
+    state.values.gameVelocity = state.values.gameVelocity - 100;
+    state.actions.randoSquareTimer = setInterval(randomSquare, state.values.gameVelocity);
 }
 
 function gameOverHandle() {
